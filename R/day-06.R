@@ -18,6 +18,7 @@ covid %>%
   group_by(state) %>%
   summarize(cases = sum(cases, na.rm = TRUE)) %>%
   ungroup() %>%
+  head()
   slice_max(cases, n = 6) %>%
   pull(state) ->
   top_states
@@ -25,6 +26,7 @@ covid %>%
   filter(state %in% top_states) %>%
   group_by(state, date) %>%
   summarise(cases = sum(cases)) %>%
+  head()
   ungroup() %>%
   ggplot(aes(x = date, y = cases, color = state)) +
   geom_line(size = 2) +
@@ -36,7 +38,7 @@ covid %>%
        x = "Date",
        y = "Cases")
   ggsave(file="img/worst_state_counts.png")
-
+#making the second graph
 covid %>%
   group_by(date) %>%
   summarize(cases = sum(cases)) %>%

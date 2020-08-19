@@ -16,7 +16,8 @@ head(covid, 5)
 state.of.interest = "Utah"
 covid %>%
   filter(state == state.of.interest) %>%
-  group_by(date) %>%
+  group_by(date)
+  head()
   summarise(cases = sum(cases)) %>%
   mutate(newCases = cases - lag(cases),
          roll7 = rollmean(newCases, 7, fill = NA, align="right")) %>%
