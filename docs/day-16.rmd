@@ -1,0 +1,45 @@
+---
+title: "Geography 176A"
+author: "[Kyler Plouffe](https://kplouffe.github.io/kplouffe/)"
+subtitle: 'Day 16: Leaflet Map'
+output:
+  html_document:
+    theme: journal
+---
+
+```{r}
+# SPDS
+library(tidyverse)
+library(sf)
+library(units)
+
+# Data
+library(USAboundaries)
+library(rnaturalearth)
+
+# Visualization
+library(gghighlight)
+library(ggrepel)
+library(knitr)
+library(rmapshaper)
+library(mapview)
+library(leaflet)
+
+cities = read_csv("uscities.csv") %>%
+  st_as_sf(coords = c("lng", "lat"), crs = 4326) %>%
+  select(city, state_name, population) %>% 
+  slice_max(population, n = 5)
+```
+
+
+### 5 Most Populous Cities in the US
+```{r}
+leaflet() %>% 
+  setView(lng=-98.5795, lat=39.828175, zoom = 4) %>% 
+  addProviderTiles(providers$CartoDB) %>% 
+  addMarkers(data = cities, popup = ~population, label = ~city)
+
+```
+
+
+
